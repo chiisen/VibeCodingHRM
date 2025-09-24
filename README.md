@@ -50,7 +50,7 @@ python app.py
 - 🔍 搜尋篩選：員工姓名與部門篩選
 - 💰 智慧計算：自動計算實支薪資與統計數據
 # 📁 專案檔案結構
-
+```bash
 VibeCodingHRM/
 ├── app.py                 # 主應用程式
 ├── requirements.txt       # Python 依賴
@@ -63,3 +63,4 @@ VibeCodingHRM/
 │   ├── compensation.html # 薪酬與績效
 │   └── ...               # 其他表單模板
 └── static/               # 靜態檔案
+```
