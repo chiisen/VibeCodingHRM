@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+
+{% block title %}編輯薪酬 - {{ employee.name }} - HRM Demo System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit"></i> 編輯薪酬與績效：{{ employee.name }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <!-- Employee Info -->
+                <div class="alert alert-info">
+                    <h5><i class="fas fa-info-circle"></i> 員工資訊</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>姓名：</strong>{{ employee.name }}<br>
+                            <strong>員工編號：</strong>{{ employee.employee_id }}<br>
+                            <strong>部門：</strong>{{ employee.department }}
+                        </div>
+                        <div class="col-md-6">
+                            <strong>職稱：</strong>{{ employee.position }}<br>
+                            <strong>入職日期：</strong>{{ employee.hire_date }}
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST">
+                    <!-- Salary Information -->
+                    <h5 class="mb-3">
+                        <i class="fas fa-money-bill-wave"></i> 薪資資訊
+                    </h5>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="base_salary" class="form-label">
+                                    <i class="fas fa-money-bill"></i> 基礎薪資 *
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="base_salary" name="base_salary"
+                                           value="{{ comp_record.base_salary }}" min="0" step="100" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="bonus" class="form-label">
+                                    <i class="fas fa-gift"></i> 獎金
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="bonus" name="bonus"
+                                           value="{{ comp_record.bonus }}" min="0" step="50">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="deductions" class="form-label">
+                                    <i class="fas fa-minus"></i> 扣款
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="deductions" name="deductions"
+                                           value="{{ comp_record.deductions }}" min="0" step="10">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Net Pay Calculator -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card bg-light">
+                                <div class="card-body text-center">
+                                    <h5 class="text-primary">
+                                        <i class="fas fa-calculator"></i> 實支薪資計算
+                                    </h5>
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <h6>基礎薪資</h6>
+                                            <span id="calc_base">${{ "{:,.0f}".format(comp_record.base_salary) }}</span>
+                                        </div>
+                                        <div class="col-md-2 text-center">
+                                            <h6>+</h6>
+                                            <span id="calc_plus">獎金</span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <h6>獎金</h6>
+                                            <span id="calc_bonus">${{ "{:,.0f}".format(comp_record.bonus) }}</span>
+                                        </div>
+                                        <div class="col-md-2 text-center">
+                                            <h6>-</h6>
+                                            <span id="calc_minus">扣款</span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h4 class="text-success">
+                                                實支薪資: <span id="calc_net">${{ "{:,.0f}".format(comp_record.base_salary + comp_record.bonus - comp_record.deductions) }}</span>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Performance Information -->
+                    <h5 class="mb-3 mt-4">
+                        <i class="fas fa-star"></i> 績效評估
+                    </h5>
+
+                    <div class="mb-3">
+                        <label for="performance_rating" class="form-label">
+                            <i class="fas fa-chart-line"></i> 績效等級 *
+                        </label>
+                        <select class="form-control" id="performance_rating" name="performance_rating" required>
+                            <option value="">請選擇績效等級</option>
+                            <option value="A" {{ 'selected' if comp_record.performance_rating == 'A' else '' }}>
+                                ⭐ A級 - 優秀 (Excellent)
+                            </option>
+                            <option value="B" {{ 'selected' if comp_record.performance_rating == 'B' else '' }}>
+                                ⭐ B級 - 良好 (Good)
+                            </option>
+                            <option value="C" {{ 'selected' if comp_record.performance_rating == 'C' else '' }}>
+                                ⭐ C級 - 普通 (Average)
+                            </option>
+                            <option value="D" {{ 'selected' if comp_record.performance_rating == 'D' else '' }}>
+                                ⭐ D級 - 需改進 (Needs Improvement)
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="comments" class="form-label">
+                            <i class="fas fa-comments"></i> 評語與備註
+                        </label>
+                        <textarea class="form-control" id="comments" name="comments" rows="3"
+                                  placeholder="請輸入績效評語、改進建議或其他備註...">{{ comp_record.comments }}</textarea>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('compensation') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> 取消
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> 儲存薪酬資料
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-focus on first input
+    document.getElementById('base_salary').focus();
+
+    // Real-time calculation update
+    function updateCalculation() {
+        const base = parseFloat(document.getElementById('base_salary').value) || 0;
+        const bonus = parseFloat(document.getElementById('bonus').value) || 0;
+        const deductions = parseFloat(document.getElementById('deductions').value) || 0;
+        const net = base + bonus - deductions;
+
+        document.getElementById('calc_base').textContent = '$' + base.toLocaleString();
+        document.getElementById('calc_bonus').textContent = '$' + bonus.toLocaleString();
+        document.getElementById('calc_net').textContent = '$' + net.toLocaleString();
+    }
+
+    // Add event listeners for real-time calculation
+    document.getElementById('base_salary').addEventListener('input', updateCalculation);
+    document.getElementById('bonus').addEventListener('input', updateCalculation);
+    document.getElementById('deductions').addEventListener('input', updateCalculation);
+</script>
+{% endblock %}

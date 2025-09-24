@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}新增員工 - HRM Demo System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-plus"></i> 新增員工
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-user"></i> 員工姓名 *
+                        </label>
+                        <input type="text" class="form-control" id="name" name="name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="employee_id" class="form-label">
+                            <i class="fas fa-id-card"></i> 員工編號 *
+                        </label>
+                        <input type="text" class="form-control" id="employee_id" name="employee_id"
+                               placeholder="例如: EMP001" required>
+                        <div class="form-text">請輸入唯一的員工編號</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="department" class="form-label">
+                            <i class="fas fa-building"></i> 部門 *
+                        </label>
+                        <select class="form-control" id="department" name="department" required>
+                            <option value="">請選擇部門</option>
+                            <option value="Engineering">工程部</option>
+                            <option value="Human Resources">人力資源部</option>
+                            <option value="Marketing">行銷部</option>
+                            <option value="Sales">業務部</option>
+                            <option value="Finance">財務部</option>
+                            <option value="Operations">營運部</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="position" class="form-label">
+                            <i class="fas fa-briefcase"></i> 職稱 *
+                        </label>
+                        <input type="text" class="form-control" id="position" name="position"
+                               placeholder="例如: 軟體工程師" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="hire_date" class="form-label">
+                            <i class="fas fa-calendar"></i> 入職日期 *
+                        </label>
+                        <input type="date" class="form-control" id="hire_date" name="hire_date" required>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('employees') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> 取消
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-save"></i> 儲存員工資料
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-focus on first input
+    document.getElementById('name').focus();
+
+    // Set default hire date to today
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('hire_date').value = today;
+</script>
+{% endblock %}

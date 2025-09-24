@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}應徵職缺 - {{ job.title }} - HRM Demo System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-paper-plane"></i> 應徵職缺：{{ job.title }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <!-- Job Details -->
+                <div class="alert alert-info">
+                    <h5><i class="fas fa-info-circle"></i> 職缺資訊</h5>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <strong>職務名稱：</strong>{{ job.title }}<br>
+                            <strong>部門：</strong>{{ job.department }}<br>
+                            <strong>職缺數量：</strong>{{ job.positions }} 個
+                        </div>
+                        <div class="col-md-6">
+                            <strong>工作描述：</strong><br>
+                            <small>{{ job.description }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="applicant_name" class="form-label">
+                            <i class="fas fa-user"></i> 姓名 *
+                        </label>
+                        <input type="text" class="form-control" id="applicant_name" name="applicant_name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contact" class="form-label">
+                            <i class="fas fa-envelope"></i> 聯絡方式 *
+                        </label>
+                        <input type="text" class="form-control" id="contact" name="contact" placeholder="請輸入電子郵件或電話" required>
+                        <div class="form-text">請提供電子郵件地址或電話號碼，我們將用於聯繫您</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="terms" required>
+                            <label class="form-check-label" for="terms">
+                                我同意提供個人資料用於此職缺申請程序 *
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('recruitment') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> 返回
+                        </a>
+                        <button type="submit" class="btn btn-success">
+                            <i class="fas fa-paper-plane"></i> 提交申請
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-focus on first input
+    document.getElementById('applicant_name').focus();
+</script>
+{% endblock %}

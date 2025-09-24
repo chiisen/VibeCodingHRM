@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}招聘管理 - HRM Demo System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-briefcase"></i> 招聘管理
+            </h2>
+            <a href="{{ url_for('add_job') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> 新增職缺
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Job Listings -->
+<div class="row">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-list"></i> 職缺列表
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if jobs %}
+                    <div class="accordion" id="jobsAccordion">
+                        {% for job in jobs %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ job.id }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ job.id }}" aria-expanded="false" aria-controls="collapse{{ job.id }}">
+                                        <div class="d-flex w-100 justify-content-between">
+                                            <strong>{{ job.title }}</strong>
+                                            <span class="badge bg-info">{{ job.positions }} 個職缺</span>
+                                        </div>
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ job.id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ job.id }}" data-bs-parent="#jobsAccordion">
+                                    <div class="accordion-body">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h6>職務描述</h6>
+                                                <p>{{ job.description }}</p>
+                                                <p><strong>部門：</strong>{{ job.department }}</p>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h6>操作</h6>
+                                                <div class="d-grid gap-2">
+                                                    <a href="{{ url_for('edit_job', job_id=job.id) }}" class="btn btn-warning btn-sm">
+                                                        <i class="fas fa-edit"></i> 編輯
+                                                    </a>
+                                                    <a href="{{ url_for('apply_job', job_id=job.id) }}" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-paper-plane"></i> 應徵
+                                                    </a>
+                                                    <a href="{{ url_for('delete_job', job_id=job.id) }}" class="btn btn-danger btn-sm" onclick="return confirm('確定要刪除這個職缺嗎？')">
+                                                        <i class="fas fa-trash"></i> 刪除
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                        <p>目前沒有職缺資訊</p>
+                        <a href="{{ url_for('add_job') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> 新增職缺
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Job Applications -->
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-users"></i> 應徵者列表
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if applications %}
+                    <div class="list-group">
+                        {% for app in applications %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ app.applicant_name }}</h6>
+                                    <small>{{ app.application_date[:10] }}</small>
+                                </div>
+                                <p class="mb-1">
+                                    <strong>{{ app.job_title }}</strong>
+                                </p>
+                                <small class="text-muted">{{ app.contact }}</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="mt-3 text-center">
+                        <span class="badge bg-success">{{ applications|length }} 位應徵者</span>
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="fas fa-user-plus fa-3x mb-3"></i>
+                        <p>目前沒有應徵者</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="card mt-3">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar"></i> 快速統計
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="border rounded p-2">
+                            <h4 class="text-primary">{{ jobs|length }}</h4>
+                            <small class="text-muted">職缺數</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-2">
+                            <h4 class="text-success">{{ applications|length }}</h4>
+                            <small class="text-muted">應徵數</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

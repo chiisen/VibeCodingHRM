@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}首頁 - HRM Demo System{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="jumbotron bg-light p-4 rounded">
+            <h1 class="display-4">
+                <i class="fas fa-users"></i> 歡迎使用 HRM Demo System
+            </h1>
+            <p class="lead">這是一個基於 Python Flask 的人力資源管理系統示範，包含招聘管理、員工管理、薪酬與績效三大核心功能。</p>
+            <hr class="my-4">
+            <p>系統特色：資料儲存在記憶體中，無需資料庫，適合學習和展示用途。</p>
+            <a class="btn btn-primary btn-lg" href="{{ url_for('recruitment') }}" role="button">
+                <i class="fas fa-briefcase"></i> 查看招聘管理
+            </a>
+            <a class="btn btn-success btn-lg" href="{{ url_for('employees') }}" role="button">
+                <i class="fas fa-users"></i> 查看員工管理
+            </a>
+            <a class="btn btn-warning btn-lg" href="{{ url_for('compensation') }}" role="button">
+                <i class="fas fa-money-bill-wave"></i> 查看薪酬與績效
+            </a>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-briefcase"></i> 最新職缺列表
+                </h5>
+            </div>
+            <div class="card-body">
+                {% if jobs %}
+                    <div class="list-group">
+                        {% for job in jobs %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1">{{ job.title }}</h5>
+                                    <small>職缺數量: {{ job.positions }}</small>
+                                </div>
+                                <p class="mb-1">{{ job.description }}</p>
+                                <small class="text-muted">部門: {{ job.department }}</small>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="text-center text-muted">
+                        <i class="fas fa-inbox fa-3x mb-3"></i>
+                        <p>目前沒有職缺資訊</p>
+                        <a href="{{ url_for('recruitment') }}" class="btn btn-primary">
+                            <i class="fas fa-plus"></i> 新增職缺
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-chart-bar"></i> 系統統計
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="border rounded p-3">
+                            <h3 class="text-primary">{{ jobs|length }}</h3>
+                            <small class="text-muted">職缺數量</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="border rounded p-3">
+                            <h3 class="text-success">{{ employees|length }}</h3>
+                            <small class="text-muted">員工數量</small>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="text-center">
+                    <small class="text-muted">
+                        <i class="fas fa-info-circle"></i> 資料儲存在記憶體中<br>
+                        重新啟動伺服器後將重置
+                    </small>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0">
+                    <i class="fas fa-cogs"></i> 系統功能
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="list-group list-group-flush">
+                    <a href="{{ url_for('recruitment') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-briefcase text-primary"></i> 招聘管理
+                        <small class="text-muted">職缺發布與應徵者管理</small>
+                    </a>
+                    <a href="{{ url_for('employees') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-users text-success"></i> 員工管理
+                        <small class="text-muted">員工資料維護與查詢</small>
+                    </a>
+                    <a href="{{ url_for('compensation') }}" class="list-group-item list-group-item-action">
+                        <i class="fas fa-money-bill-wave text-warning"></i> 薪酬與績效
+                        <small class="text-muted">薪資計算與績效評估</small>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

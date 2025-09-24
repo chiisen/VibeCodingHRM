@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}新增職缺 - HRM Demo System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">
+                    <i class="fas fa-plus"></i> 新增職缺
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">
+                            <i class="fas fa-briefcase"></i> 職務名稱 *
+                        </label>
+                        <input type="text" class="form-control" id="title" name="title" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="department" class="form-label">
+                            <i class="fas fa-building"></i> 部門 *
+                        </label>
+                        <select class="form-control" id="department" name="department" required>
+                            <option value="">請選擇部門</option>
+                            <option value="Engineering">工程部</option>
+                            <option value="Human Resources">人力資源部</option>
+                            <option value="Marketing">行銷部</option>
+                            <option value="Sales">業務部</option>
+                            <option value="Finance">財務部</option>
+                            <option value="Operations">營運部</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="positions" class="form-label">
+                            <i class="fas fa-users"></i> 職缺數量 *
+                        </label>
+                        <input type="number" class="form-control" id="positions" name="positions" min="1" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">
+                            <i class="fas fa-file-alt"></i> 工作描述 *
+                        </label>
+                        <textarea class="form-control" id="description" name="description" rows="5" required placeholder="請詳細描述工作內容、要求和條件..."></textarea>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('recruitment') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> 取消
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> 儲存職缺
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-focus on first input
+    document.getElementById('title').focus();
+</script>
+{% endblock %}

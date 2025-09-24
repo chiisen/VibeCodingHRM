@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}編輯職缺 - {{ job.title }} - HRM Demo System{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-warning text-dark">
+                <h4 class="mb-0">
+                    <i class="fas fa-edit"></i> 編輯職缺：{{ job.title }}
+                </h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">
+                            <i class="fas fa-briefcase"></i> 職務名稱 *
+                        </label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ job.title }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="department" class="form-label">
+                            <i class="fas fa-building"></i> 部門 *
+                        </label>
+                        <select class="form-control" id="department" name="department" required>
+                            <option value="">請選擇部門</option>
+                            <option value="Engineering" {{ 'selected' if job.department == 'Engineering' else '' }}>工程部</option>
+                            <option value="Human Resources" {{ 'selected' if job.department == 'Human Resources' else '' }}>人力資源部</option>
+                            <option value="Marketing" {{ 'selected' if job.department == 'Marketing' else '' }}>行銷部</option>
+                            <option value="Sales" {{ 'selected' if job.department == 'Sales' else '' }}>業務部</option>
+                            <option value="Finance" {{ 'selected' if job.department == 'Finance' else '' }}>財務部</option>
+                            <option value="Operations" {{ 'selected' if job.department == 'Operations' else '' }}>營運部</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="positions" class="form-label">
+                            <i class="fas fa-users"></i> 職缺數量 *
+                        </label>
+                        <input type="number" class="form-control" id="positions" name="positions" min="1" value="{{ job.positions }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">
+                            <i class="fas fa-file-alt"></i> 工作描述 *
+                        </label>
+                        <textarea class="form-control" id="description" name="description" rows="5" required>{{ job.description }}</textarea>
+                    </div>
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{{ url_for('recruitment') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> 取消
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fas fa-save"></i> 更新職缺
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Auto-focus on first input
+    document.getElementById('title').focus();
+</script>
+{% endblock %}
